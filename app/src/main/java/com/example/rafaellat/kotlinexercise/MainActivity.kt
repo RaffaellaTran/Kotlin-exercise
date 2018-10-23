@@ -3,24 +3,38 @@ package com.example.rafaellat.kotlinexercise
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
-import android.view.Menu
-import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import android.R.attr.data
 import android.app.Activity
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 
 
-class MainActivity : AppCompatActivity() {
+
+class MainActivity : AppCompatActivity(){
+
+    private lateinit var mModel: AddressViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        mModel= ViewModelProviders.of(this).get(AddressViewModel::class.java)
+        mModel.getAddressList("5UWARONn7yvedsfvjDHq")
+//        val nameObserver = Observer<String> { newName ->
+//            // Update the UI, in this case, a TextView.
+//            address.text = newName
+//        }
+//        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+//        mModel.addressLifeData.observe(this, nameObserver)
+
+       // FirebaseSingleton.instance.showAddress()
         fab.setOnClickListener {
             // class.java even if it's in kotlin
             val createIntent= Intent (this@MainActivity, CreateAddressActivity::class.java)
@@ -33,14 +47,16 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 1) {
-                if (data != null && requestCode != Activity.RESULT_OK) {
+                if (data != null && resultCode == Activity.RESULT_OK) {
+                    val addressValue : String = data.getSerializableExtra("address").toString()
+                    val cityValue : String = data.getSerializableExtra("city").toString()
+                    val fullAddress = "$addressValue $cityValue"
+                    address.setText(fullAddress)
+                    FirebaseSingleton.instance.addAddress(addressValue,cityValue)
+                    FirebaseSingleton.instance.deleteAddress("2zms0K1CboIRrnyhp8lR")
 
-                        val addressValue : String = data.getSerializableExtra("address").toString()
-                        val cityValue : String = data.getSerializableExtra("city").toString()
-                        val fullAddress = "$addressValue, $cityValue"
-                        address.setText(fullAddress)
-                    }
-                    else  address.setText("No data")
+                }
+                else  address.setText("Empty list")
         }
 
 
@@ -61,4 +77,5 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }
