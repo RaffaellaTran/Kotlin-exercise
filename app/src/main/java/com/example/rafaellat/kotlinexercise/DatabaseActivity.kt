@@ -7,6 +7,6 @@ abstract class DatabaseActivity {
 
     abstract fun addAddress(addressValue: String, cityValue: String)
     abstract fun deleteAddress(keyAddress: String)
-    abstract fun showAddress(): LiveData<String>
+    abstract fun showAddress(): LiveData<ArrayList<AddressModel>>
 
 }

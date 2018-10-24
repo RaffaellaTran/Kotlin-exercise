@@ -27,16 +27,15 @@ class MainActivity : AppCompatActivity(){
 
         aModel= ViewModelProviders.of(this).get(AddressViewModel::class.java)
         val addressData= aModel.loadAddress()
-        val addressObserver = Observer<String> { addressValue ->
-            // Update the UI, in this case, a TextView.
-            Log.d("MESS ADDRESS", addressValue)
-            address.setText(addressValue)
+        val addressObserver = Observer<ArrayList<AddressModel>> { addressValue ->
+            // Update the UI
+            val adapter = AddressAdapter (this, addressValue)
+            list_item.adapter = adapter
         }
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         addressData?.observe(this, addressObserver)
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
-        list_item.adapter = adapter
+
 
         fab.setOnClickListener {
             val createIntent= Intent (this@MainActivity, CreateAddressActivity::class.java)

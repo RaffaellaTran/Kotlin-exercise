@@ -32,19 +32,26 @@ internal class FirebaseSingleton private constructor() : DatabaseActivity() {
 
     }
 
-    override fun showAddress(): LiveData<String> {
-        var liveData = MutableLiveData<String>()
+    override fun showAddress(): LiveData<ArrayList<AddressModel>> {
+        var liveData = MutableLiveData<ArrayList<AddressModel>>()
         database.collection("addressList").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             val docs = querySnapshot?.documents
 
+            val addressList  = ArrayList<AddressModel>()
             if (docs != null) {
                 for (address in docs){
+                    val addressModel = AddressModel(address["address"].toString(),
+                        address["city"].toString(),
+                                address.id)
+                    addressList.add(addressModel)
                     Log.d(
-                        TAG, address.data.toString()
+                        TAG+"22", address.data.toString()
                     )
                 }
-                liveData.value = docs[0].data.toString()
+
             }
+            liveData.value=addressList
+
         }
         return liveData
     }
