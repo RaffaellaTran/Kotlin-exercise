@@ -4,4 +4,6 @@
     <string name="insert_city">Insert city</string>
     <string name="confirm">Confirm</string>
     <string name="insert_address">Insert address</string>
+    <string name="city">City</string>
+    <string name="address">Address</string>
 </resources>
