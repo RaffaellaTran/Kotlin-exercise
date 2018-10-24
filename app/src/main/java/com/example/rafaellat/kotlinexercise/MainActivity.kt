@@ -11,6 +11,8 @@ import android.app.Activity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
+import android.widget.ListView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
@@ -33,11 +35,11 @@ class MainActivity : AppCompatActivity(){
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         addressData?.observe(this, addressObserver)
 
-       // FirebaseSingleton.instance.showAddress()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
+        list_item.adapter = adapter
+
         fab.setOnClickListener {
-            // class.java even if it's in kotlin
             val createIntent= Intent (this@MainActivity, CreateAddressActivity::class.java)
-            // to receive data from the next activity
             startActivity(createIntent)
         }
     }
