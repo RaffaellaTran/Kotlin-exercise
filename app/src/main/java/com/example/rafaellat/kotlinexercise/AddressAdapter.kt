@@ -6,8 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-
-//import kotlinx.android.synthetic.list_item_address.*
+import android.widget.Toast
 
 class AddressAdapter(private val context: Context,
                      private val dataSource: ArrayList<AddressModel>): BaseAdapter() {
@@ -23,6 +22,7 @@ class AddressAdapter(private val context: Context,
 
         addressValue.text = addressModel.address
         cityValue.text = addressModel.city
+
         return rowView
     }
 

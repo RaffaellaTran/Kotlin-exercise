@@ -1,18 +1,14 @@
 package com.example.rafaellat.kotlinexercise
 
-
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import android.app.Activity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ArrayAdapter
-import android.widget.ListView
+import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
@@ -31,11 +27,13 @@ class MainActivity : AppCompatActivity(){
             // Update the UI
             val adapter = AddressAdapter (this, addressValue)
             list_item.adapter = adapter
+            list_item.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, id ->
+
+                FirebaseSingleton.instance.deleteAddress(addressValue[position].id)
+            }
         }
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        addressData?.observe(this, addressObserver)
-
-
+        addressData.observe(this, addressObserver)
 
         fab.setOnClickListener {
             val createIntent= Intent (this@MainActivity, CreateAddressActivity::class.java)

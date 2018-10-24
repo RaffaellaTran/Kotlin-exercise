@@ -45,7 +45,7 @@ internal class FirebaseSingleton private constructor() : DatabaseActivity() {
                                 address.id)
                     addressList.add(addressModel)
                     Log.d(
-                        TAG+"22", address.data.toString()
+                        TAG+"2", address.data.toString()
                     )
                 }
 
