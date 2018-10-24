@@ -1,17 +1,13 @@
 package com.example.rafaellat.kotlinexercise
 
 import android.util.Log
-import com.google.firebase.firestore.FieldValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
-import java.lang.reflect.Field
-import com.google.firebase.firestore.CollectionReference
-
-
 
 internal class FirebaseSingleton private constructor() : DatabaseActivity() {
     val database = FirebaseFirestore.getInstance()
-    var TAG = "MESSAGE"
-    var i=0
+    var TAG = "ADDRESS MESSAGE"
 
     override fun addAddress(addressValue: String, cityValue: String) {
 
@@ -28,7 +24,6 @@ internal class FirebaseSingleton private constructor() : DatabaseActivity() {
                 )
             }
             .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
-
     }
 
     override fun deleteAddress(keyAddress: String) {
@@ -37,18 +32,21 @@ internal class FirebaseSingleton private constructor() : DatabaseActivity() {
 
     }
 
-    fun showData(){
-        database.collection("addressList")
-            .get()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    for (document in task.result!!) {
-                        Log.d(TAG, document.id + " => " + document.data)
-                    }
-                } else {
-                    Log.w(TAG, "Error getting documents.", task.exception)
+    override fun showAddress(): LiveData<String> {
+        var liveData = MutableLiveData<String>()
+        database.collection("addressList").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+            val docs = querySnapshot?.documents
+
+            if (docs != null) {
+                for (address in docs){
+                    Log.d(
+                        TAG, address.data.toString()
+                    )
                 }
+                liveData.value = docs[0].data.toString()
             }
+        }
+        return liveData
     }
 
     companion object {

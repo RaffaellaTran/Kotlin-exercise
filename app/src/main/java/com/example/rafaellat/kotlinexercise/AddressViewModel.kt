@@ -1,25 +1,15 @@
 package com.example.rafaellat.kotlinexercise
 
-import android.os.Handler
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class AddressViewModel: ViewModel() {
 
-    var addressLifeData: MutableLiveData<List<String>>? = null
+    var addressLifeData: MutableLiveData<String>? = null
 
-    fun getAddressList(keyAddress: String): MutableLiveData<List<String>>? {
-        if (addressLifeData == null) {
-           loadAddress(keyAddress)
-        }
+     fun loadAddress(): LiveData<String> {
 
-        return addressLifeData
-    }
-
-    private fun loadAddress(keyAddress: String) {
-
-        val addressStringMap = mutableListOf("")
-        addressStringMap.add(keyAddress)
-        addressLifeData?.setValue(addressStringMap)
+       return FirebaseSingleton.instance.showAddress()
     }
 }

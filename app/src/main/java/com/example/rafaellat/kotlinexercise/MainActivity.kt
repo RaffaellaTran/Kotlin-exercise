@@ -14,52 +14,32 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
-
-
 class MainActivity : AppCompatActivity(){
 
-    private lateinit var mModel: AddressViewModel
+    private lateinit var aModel: AddressViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        mModel= ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        mModel.getAddressList("5UWARONn7yvedsfvjDHq")
-//        val nameObserver = Observer<String> { newName ->
-//            // Update the UI, in this case, a TextView.
-//            address.text = newName
-//        }
-//        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-//        mModel.addressLifeData.observe(this, nameObserver)
+        aModel= ViewModelProviders.of(this).get(AddressViewModel::class.java)
+        val addressData= aModel.loadAddress()
+        val addressObserver = Observer<String> { addressValue ->
+            // Update the UI, in this case, a TextView.
+            Log.d("MESS ADDRESS", addressValue)
+            address.setText(addressValue)
+        }
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        addressData?.observe(this, addressObserver)
 
        // FirebaseSingleton.instance.showAddress()
         fab.setOnClickListener {
             // class.java even if it's in kotlin
             val createIntent= Intent (this@MainActivity, CreateAddressActivity::class.java)
             // to receive data from the next activity
-            startActivityForResult(createIntent, 1)
+            startActivity(createIntent)
         }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 1) {
-                if (data != null && resultCode == Activity.RESULT_OK) {
-                    val addressValue : String = data.getSerializableExtra("address").toString()
-                    val cityValue : String = data.getSerializableExtra("city").toString()
-                    val fullAddress = "$addressValue $cityValue"
-                    address.setText(fullAddress)
-                    FirebaseSingleton.instance.addAddress(addressValue,cityValue)
-                    FirebaseSingleton.instance.deleteAddress("2zms0K1CboIRrnyhp8lR")
-
-                }
-                else  address.setText("Empty list")
-        }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

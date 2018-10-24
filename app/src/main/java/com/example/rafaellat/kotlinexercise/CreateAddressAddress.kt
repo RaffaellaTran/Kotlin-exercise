@@ -21,11 +21,9 @@ class CreateAddressActivity : AppCompatActivity() {
 
                 var address = addressText.text.toString()
                 var city = cityText.text.toString()
-
+                FirebaseSingleton.instance.addAddress(address, city)
                 val sendDataIntent= Intent (this@CreateAddressActivity, MainActivity::class.java )
-                sendDataIntent.putExtra("address", address)
-                sendDataIntent.putExtra("city", city)
-                setResult(Activity.RESULT_OK,sendDataIntent)
+                startActivity(sendDataIntent)
                 finish()
             }
         })
