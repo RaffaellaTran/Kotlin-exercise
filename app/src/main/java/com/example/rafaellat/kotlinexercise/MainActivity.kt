@@ -3,16 +3,19 @@ package com.example.rafaellat.kotlinexercise
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
-import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var addressViewModel: AddressViewModel
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,12 +27,11 @@ class MainActivity : AppCompatActivity() {
         val addressObserver = Observer<ArrayList<AddressModel>> { addressValue ->
 
             // Update the UI
-            val adapter = AddressAdapter(this, addressValue)
-            list_item.adapter = adapter
-
-            // Delete touched item
-            list_item.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, id ->
-                FirebaseRepository.instance.deleteAddress(addressValue[position].id)
+            viewManager = LinearLayoutManager(this)
+            viewAdapter = AddressAdapter(addressValue)
+            address_recycle_view.apply {
+                layoutManager = viewManager
+                adapter = viewAdapter
             }
         }
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
