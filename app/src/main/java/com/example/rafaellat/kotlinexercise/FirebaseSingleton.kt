@@ -48,10 +48,8 @@ internal class FirebaseSingleton private constructor() : DatabaseActivity() {
                         TAG+"2", address.data.toString()
                     )
                 }
-
             }
             liveData.value=addressList
-
         }
         return liveData
     }
