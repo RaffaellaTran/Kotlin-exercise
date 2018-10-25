@@ -18,14 +18,21 @@ class AddressAdapter(
 
         val addressModel = getItem(position) as AddressModel
         val rowView = inflater.inflate(R.layout.list_item_address, parent, false)
-        val addressViewHolder = AddressViewHolder(
-            rowView.findViewById(R.id.address_text_view),
-            rowView.findViewById(R.id.city_text_view)
-        )
-        // inflate the layout
+
+        val addressViewHolder: AddressAdapter.AddressViewHolder = if (convertView?.tag == null) {
+            AddressViewHolder(
+                rowView.findViewById(R.id.address_text_view),
+                rowView.findViewById(R.id.city_text_view)
+            ).also {
+                convertView?.tag = it
+            }
+            // inflate the layout
+        } else {
+            convertView.tag as AddressViewHolder
+        }
+
         addressViewHolder.addressTextView.text = addressModel.address
         addressViewHolder.cityTextView.text = addressModel.city
-        convertView?.tag = addressViewHolder
 
         return rowView
     }
