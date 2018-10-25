@@ -12,8 +12,8 @@ internal class FirebaseSingleton private constructor() : DatabaseActivity() {
     override fun addAddress(addressValue: String, cityValue: String) {
 
         val address = HashMap<String, String>()
-        address.put ("address", addressValue)
-        address.put ("city", cityValue)
+        address.put("address", addressValue)
+        address.put("city", cityValue)
 
         database.collection("addressList")
             .add(address as Map<String, Any>)
@@ -37,19 +37,21 @@ internal class FirebaseSingleton private constructor() : DatabaseActivity() {
         database.collection("addressList").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             val docs = querySnapshot?.documents
 
-            val addressList  = ArrayList<AddressModel>()
+            val addressList = ArrayList<AddressModel>()
             if (docs != null) {
-                for (address in docs){
-                    val addressModel = AddressModel(address["address"].toString(),
+                for (address in docs) {
+                    val addressModel = AddressModel(
+                        address["address"].toString(),
                         address["city"].toString(),
-                                address.id)
+                        address.id
+                    )
                     addressList.add(addressModel)
                     Log.d(
-                        TAG+"2", address.data.toString()
+                        TAG + "2", address.data.toString()
                     )
                 }
             }
-            liveData.value=addressList
+            liveData.value = addressList
         }
         return liveData
     }

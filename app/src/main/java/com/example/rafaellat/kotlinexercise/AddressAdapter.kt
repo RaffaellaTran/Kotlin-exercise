@@ -7,15 +7,16 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 
-class AddressAdapter(private val context: Context,
-                     private val dataSource: ArrayList<AddressModel>): BaseAdapter() {
+class AddressAdapter(
+    private val context: Context,
+    private val dataSource: ArrayList<AddressModel>
+) : BaseAdapter() {
 
-    private val inflater: LayoutInflater
-            = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val rowView = inflater.inflate(R.layout.list_item_address, parent, false)
-        val addressModel= getItem(position) as AddressModel
+        val addressModel = getItem(position) as AddressModel
         val addressValue = rowView.findViewById(R.id.address_value) as TextView
         val cityValue = rowView.findViewById(R.id.city_value) as TextView
 
@@ -34,7 +35,7 @@ class AddressAdapter(private val context: Context,
     }
 
     override fun getCount(): Int {
-       return dataSource.size
+        return dataSource.size
     }
 
 }

@@ -10,7 +10,7 @@ import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity() {
 
     private lateinit var aModel: AddressViewModel
 
@@ -19,12 +19,12 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        aModel= ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        val addressData= aModel.loadAddress()
+        aModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
+        val addressData = aModel.loadAddress()
         val addressObserver = Observer<ArrayList<AddressModel>> { addressValue ->
 
             // Update the UI
-            val adapter = AddressAdapter (this, addressValue)
+            val adapter = AddressAdapter(this, addressValue)
             list_item.adapter = adapter
 
             // Delete touched item
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(){
 
         //Create a new address
         fab.setOnClickListener {
-            val createIntent= Intent (this@MainActivity, CreateAddressActivity::class.java)
+            val createIntent = Intent(this@MainActivity, CreateAddressActivity::class.java)
             startActivity(createIntent)
         }
     }

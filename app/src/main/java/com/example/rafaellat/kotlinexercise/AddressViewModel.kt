@@ -3,10 +3,10 @@ package com.example.rafaellat.kotlinexercise
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 
-class AddressViewModel: ViewModel() {
+class AddressViewModel : ViewModel() {
 
-     fun loadAddress(): LiveData<ArrayList<AddressModel>> {
+    fun loadAddress(): LiveData<ArrayList<AddressModel>> {
 
-       return FirebaseSingleton.instance.showAddress()
+        return FirebaseSingleton.instance.showAddress()
     }
 }

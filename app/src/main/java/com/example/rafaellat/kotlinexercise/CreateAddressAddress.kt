@@ -22,7 +22,7 @@ class CreateAddressActivity : AppCompatActivity() {
                 var address = addressText.text.toString()
                 var city = cityText.text.toString()
                 FirebaseSingleton.instance.addAddress(address, city)
-                val sendDataIntent= Intent (this@CreateAddressActivity, MainActivity::class.java )
+                val sendDataIntent = Intent(this@CreateAddressActivity, MainActivity::class.java)
                 startActivity(sendDataIntent)
                 finish()
             }
