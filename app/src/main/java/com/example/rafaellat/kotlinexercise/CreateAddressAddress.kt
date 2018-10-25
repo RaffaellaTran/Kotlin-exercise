@@ -1,6 +1,5 @@
 package com.example.rafaellat.kotlinexercise
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,11 +18,9 @@ class CreateAddressActivity : AppCompatActivity() {
         confirmButton.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
 
-                var address = addressText.text.toString()
-                var city = cityText.text.toString()
-                FirebaseSingleton.instance.addAddress(address, city)
-                val sendDataIntent = Intent(this@CreateAddressActivity, MainActivity::class.java)
-                startActivity(sendDataIntent)
+                val address = addressText.text.toString()
+                val city = cityText.text.toString()
+                FirebaseRepository.instance.addAddress(address, city)
                 finish()
             }
         })

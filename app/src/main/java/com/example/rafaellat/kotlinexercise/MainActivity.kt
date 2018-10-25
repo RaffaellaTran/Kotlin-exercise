@@ -12,15 +12,15 @@ import androidx.lifecycle.ViewModelProviders
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var aModel: AddressViewModel
+    private lateinit var addressViewModel: AddressViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        aModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        val addressData = aModel.loadAddress()
+        addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
+        val addressData = addressViewModel.loadAddress()
         val addressObserver = Observer<ArrayList<AddressModel>> { addressValue ->
 
             // Update the UI
@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
             // Delete touched item
             list_item.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, id ->
-                FirebaseSingleton.instance.deleteAddress(addressValue[position].id)
+                FirebaseRepository.instance.deleteAddress(addressValue[position].id)
             }
         }
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.

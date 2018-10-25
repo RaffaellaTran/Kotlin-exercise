@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 class AddressViewModel : ViewModel() {
 
     fun loadAddress(): LiveData<ArrayList<AddressModel>> {
-
-        return FirebaseSingleton.instance.showAddress()
+        return FirebaseRepository.instance.showAddress()
     }
 }

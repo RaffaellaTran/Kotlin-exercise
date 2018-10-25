@@ -9,7 +9,7 @@ import android.widget.TextView
 
 class AddressAdapter(
     private val context: Context,
-    private val dataSource: ArrayList<AddressModel>
+    private val addressList: ArrayList<AddressModel>
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -17,17 +17,17 @@ class AddressAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val rowView = inflater.inflate(R.layout.list_item_address, parent, false)
         val addressModel = getItem(position) as AddressModel
-        val addressValue = rowView.findViewById(R.id.address_value) as TextView
-        val cityValue = rowView.findViewById(R.id.city_value) as TextView
+        val addressTextView = rowView.findViewById(R.id.address_text_view) as TextView
+        val cityTextView = rowView.findViewById(R.id.city_text_view) as TextView
 
-        addressValue.text = addressModel.address
-        cityValue.text = addressModel.city
+        addressTextView.text = addressModel.address
+        cityTextView.text = addressModel.city
 
         return rowView
     }
 
     override fun getItem(position: Int): Any {
-        return dataSource[position]
+        return addressList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -35,7 +35,7 @@ class AddressAdapter(
     }
 
     override fun getCount(): Int {
-        return dataSource.size
+        return addressList.size
     }
 
 }
