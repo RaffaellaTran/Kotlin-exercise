@@ -17,15 +17,15 @@ internal class FirebaseRepository private constructor() : Repository() {
         database.collection("addressList")
             .add(address as Map<String, Any>)
             .addOnSuccessListener { documentReference ->
-                Timber.d("DocumentSnapshot added with ID: " + documentReference.id)
+                Timber.d("DocumentSnapshot added with ID: %s", documentReference.id)
             }
-            .addOnFailureListener { e -> Timber.w("Error adding document" + e) }
+            .addOnFailureListener { e -> Timber.w(e, "Error adding document") }
     }
 
     override fun deleteAddress(keyAddress: String) {
 
         database.collection("addressList").document(keyAddress).delete()
-        Timber.d("DocumentSnapshot deleted with ID: " + keyAddress)
+        Timber.d("DocumentSnapshot deleted with ID: %s", keyAddress)
 
     }
 
