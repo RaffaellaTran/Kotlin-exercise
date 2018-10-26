@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import timber.log.Timber
 
-internal class FirebaseRepository private constructor() : Repository() {
+internal class FirebaseService private constructor() : AddressModelType() {
     val database = FirebaseFirestore.getInstance()
 
     override fun addAddress(addressValue: String, cityValue: String) {
@@ -31,14 +31,14 @@ internal class FirebaseRepository private constructor() : Repository() {
 
     }
 
-    override fun showAddress(): LiveData<ArrayList<AddressModel>> {
-        val liveData = MutableLiveData<ArrayList<AddressModel>>()
+    override fun showAddress(): LiveData<ArrayList<Address>> {
+        val liveData = MutableLiveData<ArrayList<Address>>()
         database.collection("addressList").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             val docs = querySnapshot?.documents
 
-            val addressList = ArrayList<AddressModel>()
+            val addressList = ArrayList<Address>()
             docs?.forEach { address ->
-                val addressModel = AddressModel(
+                val addressModel = Address(
                     address["address"].toString(),
                     address["city"].toString(),
                     address.id
@@ -47,7 +47,7 @@ internal class FirebaseRepository private constructor() : Repository() {
                 Timber.d(address.data.toString())
             }
 //            val addressList2 = docs?.map {address->
-//                val addressModel = AddressModel(
+//                val addressModel = Address(
 //                    address["address"].toString(),
 //                    address["city"].toString(),
 //                    address.id
@@ -61,7 +61,7 @@ internal class FirebaseRepository private constructor() : Repository() {
     }
 
     companion object {
-        val instance = FirebaseRepository()
+        val instance = FirebaseService()
 
     }
 }

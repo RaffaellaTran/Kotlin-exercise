@@ -22,12 +22,13 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         addressViewModel = ViewModelProviders.of(this).get(AddressViewModel::class.java)
-        val addressData = addressViewModel.loadAddress()
-        val addressObserver = Observer<ArrayList<AddressModel>> { addressValue ->
+        val addressData = addressViewModel.address()
+
+        val addressObserver = Observer<ArrayList<Address>> { addressValue ->
 
             // Update the UI
             recycleViewManager = LinearLayoutManager(this)
-            recycleViewAdapter = AddressAdapter(addressValue)
+            recycleViewAdapter = AddressAdapter(addressValue, addressViewModel)
             address_recycle_view.apply {
                 layoutManager = recycleViewManager
                 adapter = recycleViewAdapter

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_create_address.*
 
 
 class CreateAddressActivity : AppCompatActivity() {
-
+    private var addressViewModel: AddressViewModel = AddressViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_address)
@@ -19,7 +19,7 @@ class CreateAddressActivity : AppCompatActivity() {
 
                 val address = addressText.text.toString()
                 val city = cityText.text.toString()
-                FirebaseRepository.instance.addAddress(address, city)
+                addressViewModel.addAddress(address, city)
                 finish()
             }
         })

@@ -5,7 +5,16 @@ import androidx.lifecycle.ViewModel
 
 class AddressViewModel : ViewModel() {
 
-    fun loadAddress(): LiveData<ArrayList<AddressModel>> {
-        return FirebaseRepository.instance.showAddress()
+    val AddressModel = AddressModel()
+
+    fun addAddress(addressValue: String, cityValue: String) {
+        return AddressModel.addAddress(addressValue, cityValue)
+    }
+
+    fun address(): LiveData<ArrayList<Address>> {
+        return AddressModel.showAddress()
+    }
+    fun deleteAddress(keyAddress: String){
+        return AddressModel.deleteAddress(keyAddress)
     }
 }

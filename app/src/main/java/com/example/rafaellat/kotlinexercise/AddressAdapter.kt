@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class AddressAdapter(
-    private val addressList: ArrayList<AddressModel>
+    private val addressList: ArrayList<Address>,
+    private var addressViewModel: AddressViewModel
 ) : RecyclerView.Adapter<AddressAdapter.AddressHolder>() {
 
     class AddressHolder(addressView: View) : RecyclerView.ViewHolder(addressView) {
         val addressText = addressView.findViewById(R.id.address_text_view) as TextView
         val cityText = addressView.findViewById(R.id.city_text_view) as TextView
-
     }
 
     // Create new views (invoked by the layout manager)
@@ -28,12 +28,13 @@ class AddressAdapter(
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(addressHolder: AddressHolder, position: Int) {
 
-        val addressModel = getItem(position) as AddressModel
-        addressHolder.addressText.text = addressModel.address
-        addressHolder.cityText.text = addressModel.city
+        val address = getItem(position) as Address
+        addressHolder.addressText.text = address.address
+        addressHolder.cityText.text = address.city
 
         addressHolder.itemView.setOnClickListener {
-            FirebaseRepository.instance.deleteAddress(addressModel.id)
+          addressViewModel.deleteAddress(address.id)
+
         }
     }
 
