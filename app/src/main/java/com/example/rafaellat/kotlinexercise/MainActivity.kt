@@ -13,9 +13,8 @@ import kotlinx.android.synthetic.main.content_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var addressViewModel: AddressViewModel
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var recycleViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var recycleViewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,11 +26,11 @@ class MainActivity : AppCompatActivity() {
         val addressObserver = Observer<ArrayList<AddressModel>> { addressValue ->
 
             // Update the UI
-            viewManager = LinearLayoutManager(this)
-            viewAdapter = AddressAdapter(addressValue)
+            recycleViewManager = LinearLayoutManager(this)
+            recycleViewAdapter = AddressAdapter(addressValue)
             address_recycle_view.apply {
-                layoutManager = viewManager
-                adapter = viewAdapter
+                layoutManager = recycleViewManager
+                adapter = recycleViewAdapter
             }
         }
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
