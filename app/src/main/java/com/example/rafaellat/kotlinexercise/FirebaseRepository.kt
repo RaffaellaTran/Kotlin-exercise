@@ -1,9 +1,9 @@
 package com.example.rafaellat.kotlinexercise
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import timber.log.Timber
 
 internal class FirebaseRepository private constructor() : Repository() {
     val database = FirebaseFirestore.getInstance()
@@ -17,14 +17,15 @@ internal class FirebaseRepository private constructor() : Repository() {
         database.collection("addressList")
             .add(address as Map<String, Any>)
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.id)
+                Timber.d("DocumentSnapshot added with ID: " + documentReference.id)
             }
-            .addOnFailureListener { e -> Log.w(TAG, "Error adding document", e) }
+            .addOnFailureListener { e -> Timber.w("Error adding document" + e) }
     }
 
     override fun deleteAddress(keyAddress: String) {
 
         database.collection("addressList").document(keyAddress).delete()
+        Timber.d("DocumentSnapshot deleted with ID: " + keyAddress)
 
     }
 
@@ -41,7 +42,7 @@ internal class FirebaseRepository private constructor() : Repository() {
                     address.id
                 )
                 addressList.add(addressModel)
-                Log.d(TAG + "2", address.data.toString())
+                Timber.d(address.data.toString())
             }
 //            val addressList2 = docs?.map {address->
 //                val addressModel = AddressModel(
